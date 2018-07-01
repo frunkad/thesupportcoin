@@ -1,0 +1,4 @@
+
+<p *ngFor="let lend of lends.visibleBor$ | async" (click)="lends.createRequest()">
+  {{lend.title}}
+</p>
