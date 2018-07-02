@@ -23,3 +23,31 @@
     </div>
   </div>
 </div>
+
+<ng-template let-context let-modal="modal" #modalTemplate2>
+    <div class="header">Example</div>
+    <div class="content">
+  
+  <form class="ui form" [formGroup]="newTaskForm">
+      <div class="field">
+        <label>First Name</label>
+        <input type="text" name="first-name" formControlName="title" placeholder="First Name">
+      </div>
+      <div class="field">
+        <label>Last Name</label>
+        <!-- <input type="text" name="last-name" placeholder="Last Name"> -->
+      </div>
+      <div class="field">
+        <div class="ui checkbox">
+          <!-- <input type="checkbox" tabindex="0" class="hidden"> -->
+          <label>I agree to the Terms and Conditions</label>
+        </div>
+      </div>
+      
+    </form>
+    </div>
+    <div class="actions">
+        <button class="ui red button" (click)="modal.deny('denied')">Cancel</button>
+        <button class="ui green button" type="submit" (click)="modal.approve('approved')">Submit</button>
+    </div>
+  </ng-template>
