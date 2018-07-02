@@ -46,5 +46,9 @@ export class LendComponent implements OnInit {
         .onDeny(r => console.log(`Denied with result: '${r}'.`));
 }
 
+public encoded(text: string) {
+  return encodeURI(text);
+}
+
 }
 

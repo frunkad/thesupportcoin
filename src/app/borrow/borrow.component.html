@@ -1,4 +1,7 @@
-
+<div class="ui container">
+  <h1 class="ui header">Borrowers</h1>
+    <small>Provide a helping hand</small>
+    
 <div class="ui divided items">
 
   <div *ngFor="let borrow of borrows.visibleBor$ | async" class="item">
@@ -11,19 +14,19 @@
         <span class="amount">Rs. {{borrow.amount}}</span>
       </div>
       <div class="description">
-        <p>Requested by {{borrow.createdBy}}</p>
+        <p>Requested by {{borrow.createdByName}}</p>
       </div>
       <div class="extra">
-        <div class="ui right floated primary button">
-          Support
+        <a href="https://wa.me/918094069970/{{encoded('I would like to extend my support to ' + borrow.createdByName)}}" target="_blank" class="ui right floated primary button" >
+          Provide Support
           <i class="right chevron icon"></i>
-        </div>
-        <div class="ui label">Immediate</div>
+        </a>
+        <div *ngIf="borrow.immediate" class="ui label">Immediate</div>
       </div>
     </div>
   </div>
 </div>
-
+</div>
 <ng-template let-context let-modal="modal" #modalTemplate2>
     <div class="header">Example</div>
     <div class="content">

@@ -1,0 +1,12 @@
+.yellow-head{
+    background-color: yellow;
+    min-height: 50px;
+}
+.item::before {
+    width: 0px !important;
+
+}
+
+.main-body {
+    background-color: whitesmoke !important; 
+}

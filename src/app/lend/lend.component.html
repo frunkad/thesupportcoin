@@ -1,9 +1,12 @@
+<div class="ui container">
+    <h1 class="ui header">Lenders</h1>
+    <small>Request a helping hand from them</small>
 
-<div class="ui divided items">
+  <div class="ui divided items">
 
-  <div *ngFor="let lend of lends.visibleBor$ | async" class="item">
+  <div *ngFor="let lend of lends.visibleBor$ | async" class="ui item block">
     <div class="image">
-      <img src="https://semantic-ui.com/images/wireframe/image.png" (click)="open()">
+      <img src="https://semantic-ui.com/images/avatar/large/steve.jpg" class="ui large image" (click)="open()">
     </div>
     <div class="content">
       <a class="header">{{lend.title}}</a>
@@ -11,19 +14,19 @@
         <span class="amount">Rs. {{lend.amount}}</span>
       </div>
       <div class="description">
-        <p>Requested by {{lend.createdBy}}</p>
+        <p>Requested by {{lend.createdByName}}</p>
       </div>
       <div class="extra">
-        <div class="ui right floated primary button">
-          Support
+          <a href="https://wa.me/918094069970/{{encoded('I would like to request help from ' + lend.createdByName)}}" target="_blank" class="ui right floated primary button" >
+            Support
           <i class="right chevron icon"></i>
-        </div>
-        <div class="ui label">Immediate</div>
-      </div>
+      </a>
+        <div *ngIf="lend.immediate" class="ui label">Immediate</div>
     </div>
   </div>
 </div>
-
+</div>
+</div>
 <ng-template let-context let-modal="modal" #modalTemplate>
   <div class="header">Example</div>
   <div class="content">
