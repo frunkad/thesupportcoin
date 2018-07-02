@@ -1,3 +1,25 @@
-<p>
-  borrow works!
-</p>
+
+<div class="ui divided items">
+
+  <div *ngFor="let borrow of borrows.visibleBor$ | async" class="item">
+    <div class="image">
+      <img src="https://semantic-ui.com/images/wireframe/image.png">
+    </div>
+    <div class="content">
+      <a class="header">{{borrow.title}}</a>
+      <div class="meta">
+        <span class="amount">Rs. {{borrow.amount}}</span>
+      </div>
+      <div class="description">
+        <p>Requested by {{borrow.createdBy}}</p>
+      </div>
+      <div class="extra">
+        <div class="ui right floated primary button">
+          Support
+          <i class="right chevron icon"></i>
+        </div>
+        <div class="ui label">Immediate</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -14,21 +14,30 @@ import { environment } from '../environments/environment';
 import { LoginComponent } from './login/login.component';
 import { LendComponent } from './lend/lend.component';
 import { BorrowComponent } from './borrow/borrow.component';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { HeaderComponent } from './header/header.component';
+import { SuiModalService, SuiModule } from 'ng2-semantic-ui';
+import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     LendComponent,
-    BorrowComponent
+    BorrowComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
+    LoadingBarRouterModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    ReactiveFormsModule,
+    SuiModule
   ],
-  providers: [AuthService,AuthGuard],
+  providers: [AuthService,AuthGuard,SuiModalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

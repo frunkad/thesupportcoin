@@ -14,7 +14,7 @@ export class LoginComponent {
 
   doLogin() { 
     this.auth.googleLogin().then((suc)=>{
-      this.router.navigateByUrl("dashboard");
+      this.router.navigateByUrl("lend");
     })
   }
 

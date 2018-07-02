@@ -4,22 +4,47 @@ import { LoginComponent } from './login/login.component';
 import { LendComponent } from './lend/lend.component';
 import { BorrowComponent } from './borrow/borrow.component';
 import { AuthGuard } from './auth.guard';
+import { HeaderComponent } from './header/header.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
+  },
   {
     path: 'login',
     component: LoginComponent
   },
   {
-    path: 'lend',
-    component: LendComponent,
-    canActivate: [AuthGuard]
+    path: '',
+    children: [
+      {
+        path: 'lend',
+        component: LendComponent,
+        canActivate: [AuthGuard],
+        pathMatch: 'full'
+      },
+      {
+        path: 'borrow',
+        component: BorrowComponent,
+        canActivate: [AuthGuard],
+        pathMatch: 'full'
+      }
+
+    ],
+    component: HeaderComponent
   },
-  {
-    path: 'borrow',
-    component: BorrowComponent,
-    canActivate: [AuthGuard]
-  },
+  // {
+  //   path: 'lend',
+  //   component: LendComponent,
+  //   canActivate: [AuthGuard]
+  // },
+  // {
+  //   path: 'borrow',
+  //   component: BorrowComponent,
+  //   canActivate: [AuthGuard]
+  // },
   {
     path: '**',
     redirectTo: '/login'

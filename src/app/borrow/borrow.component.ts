@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BorrowReqService } from '../borrow-req.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-borrow',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BorrowComponent implements OnInit {
 
-  constructor() { }
+  constructor(public borrows: BorrowReqService, public auth: AuthService ) { }
 
   ngOnInit() {
   }

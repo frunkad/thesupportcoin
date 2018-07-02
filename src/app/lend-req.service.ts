@@ -16,21 +16,22 @@ export class LendReqService {
 
   private lendreqCollection: AngularFirestoreCollection<Task>;
   private uid;
+  private username;
 
   visibleBor$: Observable<Task[]>;
 
   constructor(private auth: AuthService, private db: AngularFirestore) {
     auth.user.pipe(
       take(1),
-      map(user => user.uid)
-    ).subscribe(uid=> this.uid = uid);
+      map(user => user)
+    ).subscribe(uid=> {this.uid = uid,this.username = uid.displayName});
     this.lendreqCollection = db.collection<Task>('lends');
     this.visibleBor$ = this.lendreqCollection.valueChanges();
   }
 
   createRequest(title: string, amount: string) {
     if(this.uid) {
-      this.lendreqCollection.add(new LendTask(title,this.uid,amount));
+      this.lendreqCollection.add(Object.assign({},new LendTask(title,this.uid,this.username,amount)));
     }
   }
   

@@ -23,7 +23,8 @@ export class AuthService {
 
   user: Observable<User>;
   authenticated$: Observable<boolean>;
-  uid: Observable<string>;
+  uid: string;
+  
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -33,14 +34,38 @@ export class AuthService {
 
       //// Get auth data, then get firestore user document || null
       this.authenticated$ = afAuth.authState.pipe(take(1),map(user => !!user));
-      this.user = this.afAuth.authState.pipe(
-        switchMap(user => {
-          if (user) {
-            return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
-          } else {
-            return of(null)
-          }
-        }));
+      // this.uid = afAuth.authState.pipe(map(user=>
+      //   {
+      //     console.log("feefE");
+      //     // this.user =  this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+      //     return user.uid;
+      //   }));
+      this.afAuth.authState.subscribe((user) => {
+        console.log("fef",user);
+        if(user){
+          //logged in
+          // this.authenticated$ = of(true);
+          this.uid = user.uid;
+          this.user = this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+        }
+        else{
+          // this.authenticated$ = of(false);
+          this.user = null;
+          this.uid = "";
+        }
+        
+      });
+      // this.user = this.afAuth.authState.pipe(
+      //   switchMap(user => {
+      //     if (user) {
+      //       console.log("reduce this call");
+      //       console.log(user);
+
+      //       return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
+      //     } else {
+      //       return of(null)
+      //     }
+      //   }));
     }
   
 
