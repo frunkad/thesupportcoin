@@ -24,14 +24,18 @@ export class LendReqService {
     auth.user.pipe(
       take(1),
       map(user => user)
-    ).subscribe(uid=> {this.uid = uid,this.username = uid.displayName});
+    ).subscribe(uid=> {this.uid = uid.uid,this.username = uid.displayName});
     this.lendreqCollection = db.collection<Task>('lends');
+  }
+
+  callFor() {
     this.visibleBor$ = this.lendreqCollection.valueChanges();
   }
 
-  createRequest(title: string, amount: string) {
+  createRequest(reqTask: LendTask) {
     if(this.uid) {
-      this.lendreqCollection.add(Object.assign({},new LendTask(title,this.uid,this.username,amount)));
+      reqTask.addCreatedBy(this.uid,this.username);
+      this.lendreqCollection.add(Object.assign({},reqTask));
     }
   }
   
