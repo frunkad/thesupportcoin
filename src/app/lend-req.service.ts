@@ -24,7 +24,16 @@ export class LendReqService {
     auth.user.pipe(
       take(1),
       map(user => user)
-    ).subscribe(uid=> {this.uid = uid.uid,this.username = uid.displayName});
+    ).subscribe(uid=> {
+      if(!!uid){
+      this.uid = uid.uid;
+      this.username = uid.displayName
+      }
+      else{
+        this.uid = null;
+        this.username = null;
+      }
+    });
     this.lendreqCollection = db.collection<Task>('lends');
   }
 

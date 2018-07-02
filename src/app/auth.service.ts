@@ -23,7 +23,7 @@ export class AuthService {
 
   user: Observable<User>;
   authenticated$: Observable<boolean>;
-  uid: string;
+  uid: string = "";
   
 
   constructor(
@@ -40,6 +40,7 @@ export class AuthService {
       //     // this.user =  this.afs.doc<User>(`users/${user.uid}`).valueChanges();
       //     return user.uid;
       //   }));
+      this.user = of(null);
       this.afAuth.authState.subscribe((user) => {
         console.log("fef",user);
         if(user){
@@ -50,7 +51,7 @@ export class AuthService {
         }
         else{
           // this.authenticated$ = of(false);
-          this.user = null;
+          this.user = of(null);
           this.uid = "";
         }
         
@@ -103,7 +104,7 @@ export class AuthService {
 
   signOut() {
     this.afAuth.auth.signOut().then(() => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/lend']);
     });
   }
 }

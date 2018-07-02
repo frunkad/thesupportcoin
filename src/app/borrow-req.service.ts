@@ -23,7 +23,16 @@ export class BorrowReqService {
     auth.user.pipe(
       take(1),
       map(user => user)
-    ).subscribe(uid=> {this.uid = uid.uid,this.username = uid.displayName});
+    ).subscribe(uid=> {
+      if(!!uid){
+      this.uid = uid.uid;
+      this.username = uid.displayName
+      }
+      else{
+        this.uid = null;
+        this.username = null;
+      }
+    });
     this.borrowreqCollection = db.collection<Task>('borrows');
   }
   callFor() {

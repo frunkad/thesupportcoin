@@ -22,13 +22,11 @@ const routes: Routes = [
       {
         path: 'lend',
         component: LendComponent,
-        canActivate: [AuthGuard],
         pathMatch: 'full'
       },
       {
         path: 'borrow',
         component: BorrowComponent,
-        canActivate: [AuthGuard],
         pathMatch: 'full'
       }
 
@@ -37,7 +35,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/login'
+    redirectTo: '/lend'
   }
 ];
 
