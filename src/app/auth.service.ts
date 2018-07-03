@@ -36,7 +36,7 @@ export class AuthService {
   public user: firebase.User;
   public authState$: Observable<firebase.User>;
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, public router: Router) {
     this.user = null;
     this.authState$ = afAuth.authState;
 
@@ -107,7 +107,10 @@ export class AuthService {
   }
 
   signInWithGoogle(): Promise<void> {
-    return this.signIn(AuthProviders.Google);
+    return this.signIn(AuthProviders.Google).then((suc)  => {
+      // this.router.navigate(["/lend"]);
+      return suc;
+    });
   }
 
   signOut(): void {

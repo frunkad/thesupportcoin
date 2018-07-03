@@ -4,7 +4,8 @@
   </a>
   <div class="right item">
       <button *ngIf="currentUser" class="ui white basic button" (click)="openModal()" >New Request</button>
-      <button *ngIf="!currentUser" class="ui white basic button" routerLink="/login">Login</button>
+      <!-- <button *ngIf="!currentUser" class="ui white basic button" routerLink="/login">Login</button> -->
+      <button *ngIf="!currentUser" class="ui white basic button" (click)="auth.signInWithGoogle()">Login</button>
   </div>
 </div>
 <sui-sidebar-container class="ui bottom attached segment">

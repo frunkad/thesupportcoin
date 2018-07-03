@@ -14,7 +14,8 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    redirectTo: '/lend'
+    // component: LoginComponent
   },
   {
     path: '',
