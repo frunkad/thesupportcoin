@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { BorrowComponent } from './borrow/borrow.component';
 import { AuthService } from './auth.service';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
@@ -21,17 +20,26 @@ export class BorrowReqService {
   visibleBor$: Observable<Task[]>;
 
   constructor(private auth: AuthService, private db: AngularFirestore) {
-    auth.user.pipe(
-      take(1),
-      map(user => user)
-    ).subscribe(uid=> {this.uid = uid,this.username = uid.displayName});
-    this.borrowreqCollection = db.collection<Task>('borrows');
+    this.auth.user.subscribe(user=> {
+      if(!!user){
+      this.uid = user.uid;
+      this.username = user.displayName
+      }
+      else{
+        this.uid = null;
+        this.username = null;
+      }
+    });
+    this.borrowreqCollection = this.db.collection<Task>('borrows');
+  }
+  callFor() {
     this.visibleBor$ = this.borrowreqCollection.valueChanges();
   }
 
-  createRequest(title: string, amount: string) {
+  createRequest(reqTask: BorrowTask) {
     if(this.uid) {
-      this.borrowreqCollection.add(Object.assign({},new BorrowTask(title,this.uid,this.username,amount)));
+      reqTask.addCreatedBy(this.uid,this.username);
+      this.borrowreqCollection.add(Object.assign({},reqTask));
     }
   }
   

@@ -1,56 +1,29 @@
 <div class="ui container">
-    <h1 class="ui header">Lenders</h1>
-    <small>Request a helping hand from them</small>
+  <h1 class="ui header">Lenders</h1>
+  <small>Request a helping hand from them</small>
 
-  <div class="ui divided items">
+<div class="ui divided items">
 
-  <div *ngFor="let lend of lends.visibleBor$ | async" class="ui item block">
-    <div class="image">
-      <img src="https://semantic-ui.com/images/avatar/large/steve.jpg" class="ui large image" (click)="open()">
-    </div>
-    <div class="content">
-      <a class="header">{{lend.title}}</a>
-      <div class="meta">
-        <span class="amount">Rs. {{lend.amount}}</span>
-      </div>
-      <div class="description">
-        <p>Requested by {{lend.createdByName}}</p>
-      </div>
-      <div class="extra">
-          <a href="https://wa.me/918094069970/{{encoded('I would like to request help from ' + lend.createdByName)}}" target="_blank" class="ui right floated primary button" >
-            Support
-          <i class="right chevron icon"></i>
-      </a>
-        <div *ngIf="lend.immediate" class="ui label">Immediate</div>
-    </div>
+<div *ngFor="let lend of lends.visibleBor$ | async" class="ui item block">
+  <div class="image">
+    <img src="https://semantic-ui.com/images/avatar/large/steve.jpg" class="ui large image">
   </div>
-</div>
-</div>
-</div>
-<ng-template let-context let-modal="modal" #modalTemplate>
-  <div class="header">Example</div>
   <div class="content">
-
-<form class="ui form" [formGroup]="newTaskForm">
-    <div class="field">
-      <label>First Name</label>
-      <input type="text" name="first-name" formControlName="title" placeholder="First Name">
+    <h2 class="header">{{lend.title}}</h2>
+    <div class="meta">
+      <span class="amount">Rs. {{lend.amount}}</span>
     </div>
-    <div class="field">
-      <label>Last Name</label>
-      <!-- <input type="text" name="last-name" placeholder="Last Name"> -->
+    <div class="description">
+      <p>Requested by {{lend.createdByName}}</p>
     </div>
-    <div class="field">
-      <div class="ui checkbox">
-        <!-- <input type="checkbox" tabindex="0" class="hidden"> -->
-        <label>I agree to the Terms and Conditions</label>
-      </div>
-    </div>
-    
-  </form>
+    <div class="extra">
+        <a href="https://wa.me/918094069970/?text={{encoded('I would like to request help from ' + lend.createdByName)}}" target="_blank" class="ui right floated primary button" >
+          Request Support
+        <i class="right chevron icon"></i>
+    </a>
+      <div *ngIf="lend.immediate" class="ui label">Urgent</div>
   </div>
-  <div class="actions">
-      <button class="ui red button" (click)="modal.deny('denied')">Cancel</button>
-      <button class="ui green button" type="submit" (click)="modal.approve('approved')">Submit</button>
-  </div>
-</ng-template>
+</div>
+</div>
+</div>
+</div>

@@ -1,25 +1,62 @@
-
-
-<div *ngIf="auth.user | async as user" class="ui top yellow-head attached demo menu">
-    <a class="item" (click)="sidebar.toggle()">
-      <i class="sidebar icon"></i>
-    </a>
-    <!-- <div class="right item">
-      <img class="ui avatar image" [src]="user.photoURL">
-  
-      <button class="ui red basic button" (click)="auth.signOut()" >Logout</button>
-    </div> -->
+<div class="ui top yellow-head attached demo menu">
+  <a class="item" (click)="sidebar.toggle()">
+    <i class="sidebar icon"></i>
+  </a>
+  <div class="right item">
+      <button *ngIf="auth.uid" class="ui white basic button" (click)="openModal()" >New Request</button>
+      <button *ngIf="!auth.uid" class="ui white basic button" routerLink="/login">Login</button>
   </div>
-  <sui-sidebar-container class="ui bottom attached segment">
-    <sui-sidebar class="vertical" transition="slide along" direction="left" #sidebar>
-      <a routerLink="/lend" class="item" (click)="sidebar.close()">Lend Requests</a>
-      <a routerLink="/borrow" class="item" (click)="sidebar.close()">Borrow Requests</a>
-    </sui-sidebar>
-    <sui-sidebar-sibling [isDimmedWhenVisible]="true" class="main-body">
+</div>
+<sui-sidebar-container class="ui bottom attached segment">
+  <sui-sidebar class="vertical" transition="overlay" direction="left" #sidebar>
+    <a routerLink="/lend" class="item" (click)="sidebar.close()">Lend Requests</a>
+    <a routerLink="/borrow" class="item" (click)="sidebar.close()">Borrow Requests</a>
+    <a *ngIf="auth.uid" class="item" (click)="auth.signOut();sidebar.close()">Log Out</a>
+  </sui-sidebar>
+  <sui-sidebar-sibling [isDimmedWhenVisible]="true" class="main-body">
+
+    <div class="ui basic segment">
+      <router-outlet></router-outlet>
+    </div>
+  </sui-sidebar-sibling>
+</sui-sidebar-container>
+<ng-template let-context let-modal="modal" #mainModal>
+    <div class="header">Example</div>
+    <div class="content">
   
-      <div class="ui basic segment">
-        <router-outlet></router-outlet>
+  <form class="ui form" [formGroup]="newTaskForm">
+    <div class="field">
+      <label>Type</label>
+        <sui-select class="selection"
+            formControlName="type"
+            #select>
+            <sui-select-option value="Lending Offer">Lending Offer</sui-select-option>
+            <sui-select-option value="Borrow Request">Borrow Request</sui-select-option>
+          </sui-select>
+
+    </div>
+      <div class="field">
+        <label>Title</label>
+        <input type="text" name="name" formControlName="title" placeholder="Full Name">
       </div>
-    </sui-sidebar-sibling>
-  </sui-sidebar-container>
-  
+      <div class="field">
+        <label>Amount</label>
+        <input type="number" name="amount" formControlName="amount" placeholder="Amount">
+      </div>
+      
+      <div class="field">
+          <label>Description</label>
+          <textarea rows="2" formControlName="fullText"></textarea>
+        </div>
+      <div *ngIf="newTaskForm.value.type == 'Borrow Request'" class="field">
+          <sui-checkbox formControlName="immediate">
+              I need urgent support
+          </sui-checkbox>
+      </div>
+      
+    </form>
+    </div>
+    <div class="actions">
+        <button class="ui red button" (click)="modal.deny('denied')">Cancel</button>
+        <button class="ui green button" type="submit" (click)="modal.approve('approved')">Submit</button>
+    </div>

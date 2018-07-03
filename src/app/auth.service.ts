@@ -23,7 +23,7 @@ export class AuthService {
 
   user: Observable<User>;
   authenticated$: Observable<boolean>;
-  uid: string;
+  uid: string = "";
   
 
   constructor(
@@ -33,13 +33,14 @@ export class AuthService {
   ) {
 
       //// Get auth data, then get firestore user document || null
-      this.authenticated$ = afAuth.authState.pipe(take(1),map(user => !!user));
+      // this.authenticated$ = afAuth.authState.pipe(take(1),map(user => !!user));
       // this.uid = afAuth.authState.pipe(map(user=>
       //   {
       //     console.log("feefE");
       //     // this.user =  this.afs.doc<User>(`users/${user.uid}`).valueChanges();
       //     return user.uid;
       //   }));
+      this.user = of(null);
       this.afAuth.authState.subscribe((user) => {
         console.log("fef",user);
         if(user){
@@ -50,9 +51,10 @@ export class AuthService {
         }
         else{
           // this.authenticated$ = of(false);
-          this.user = null;
+          this.user = of(null);
           this.uid = "";
         }
+        console.log("dedefe");
         
       });
       // this.user = this.afAuth.authState.pipe(
@@ -60,7 +62,6 @@ export class AuthService {
       //     if (user) {
       //       console.log("reduce this call");
       //       console.log(user);
-
       //       return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
       //     } else {
       //       return of(null)
@@ -86,7 +87,6 @@ export class AuthService {
 
   private updateUserData(user) {
     // Sets user data to firestore on login
-
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
 
     const data: User = {
@@ -103,7 +103,7 @@ export class AuthService {
 
   signOut() {
     this.afAuth.auth.signOut().then(() => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/lend']);
     });
   }
 }

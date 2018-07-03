@@ -17,16 +17,20 @@ export class LendTask implements Task {
   createdByName;
   fullText?;
   immediate = false;
-  constructor(title: string, createdBy: string, createdByName:string, amount: string) {
+  constructor(title: string, amount: string) {
     this.title = title;
-    this.createdBy = createdBy;
     this.amount = amount;
+  }
+  addCreatedBy(createdBy: string, createdByName: string) {
+    this.createdBy = createdBy;
     this.createdByName = createdByName;
   }
   addText(text: string) {
     this.fullText = text;
   }
   requiredImmediately(immediate: boolean = true) {
+    //oh wait
+    // how could lenders immediately go ?
     this.immediate = false;
   }
 }
@@ -39,17 +43,19 @@ export class BorrowTask implements Task {
   createdByName;
   fullText?;
   immediate = false;
-  constructor(title: string, createdBy: string, createdByName:string, amount: string) {
+  constructor(title: string, amount: string) {
     this.title = title;
-    this.createdBy = createdBy;
     this.amount = amount;
-    this.createdByName = createdByName;
 
+  }
+  addCreatedBy(createdBy: string, createdByName: string) {
+    this.createdBy = createdBy;
+    this.createdByName = createdByName;
   }
   addText(text: string) {
     this.fullText = text;
   }
   requiredImmediately(immediate: boolean = true) {
-    this.immediate = false;
+    this.immediate = immediate;
   }
 }
