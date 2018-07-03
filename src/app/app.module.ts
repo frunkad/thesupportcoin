@@ -18,6 +18,7 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { HeaderComponent } from './header/header.component';
 import { SuiModalService, SuiModule } from 'ng2-semantic-ui';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UnauthGuard } from './unauth.guard';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     SuiModule
   ],
-  providers: [AuthService,AuthGuard,SuiModalService],
+  providers: [AuthService,AuthGuard,SuiModalService,UnauthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

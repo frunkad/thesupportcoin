@@ -5,6 +5,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Task, LendTask, BorrowTask } from '../task';
 import { LendReqService } from '../lend-req.service';
 import { BorrowReqService } from '../borrow-req.service';
+import { Observable } from 'rxjs';
+import { User, FirestoreService } from '../firestore.service';
+
 
 @Component({
   selector: 'app-header',
@@ -26,10 +29,27 @@ export class HeaderComponent implements OnInit {
   public modalTemplate:ModalTemplate<{ data:string }, string, string>;
 
   public dynamicContent:string = "Example of dynamic content.";
+  public currentUser$: Observable<User>;
+  public currentUser: User;
 
 
-  constructor(public auth: AuthService,public modalService: SuiModalService, public lendService: LendReqService, public borrowService: BorrowReqService) { }
+  constructor(public auth: AuthService,public modalService: SuiModalService, public lendService: LendReqService, public borrowService: BorrowReqService, public firestoreService: FirestoreService) {
+    auth.authState$.subscribe(authUser => {
+      if (authUser != null) {
+        this.currentUser$ = firestoreService.getUser(authUser.uid);
 
+        this.currentUser$.subscribe(user => {
+          console.log("<header.component.ts> currentUser state",user);
+
+          this.currentUser = user;
+        });
+      }
+      else {
+        this.currentUser = null;
+      }
+    });
+
+  }
   ngOnInit() {
   }
 
@@ -61,6 +81,7 @@ export class HeaderComponent implements OnInit {
           console.log(this.newTask);
         })
         .onDeny(r => console.log(`Denied with result: '${r}'.`));
+
 }
 
 

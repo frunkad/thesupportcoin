@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { Observable } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import { Task, BorrowTask } from './task';
+import { FirestoreService, User } from './firestore.service';
 
 
 
@@ -16,24 +17,34 @@ export class BorrowReqService {
   private borrowreqCollection: AngularFirestoreCollection<Task>;
   private uid;
   private username;
+  private currentUser$: Observable<User>
 
   visibleBor$: Observable<Task[]>;
 
-  constructor(private auth: AuthService, private db: AngularFirestore) {
-    auth.user.pipe(
-      take(1),
-      map(user => user)
-    ).subscribe(uid=> {
-      if(!!uid){
-      this.uid = uid.uid;
-      this.username = uid.displayName
+  constructor(private db: AngularFirestore,public authService: AuthService,public firestoreService: FirestoreService) {
+
+    authService.authState$.subscribe(authUser => {
+      if (authUser != null) {
+        this.currentUser$ = firestoreService.getUser(authUser.uid);
+
+        this.currentUser$.subscribe(user => {
+          if(user){
+          this.username = user.displayName;
+          this.uid = user.uid;
+          }
+          else{
+            this.username = '';
+            this.uid = null;
+          }
+        });
       }
-      else{
+      else {
+        this.username = '';
         this.uid = null;
-        this.username = null;
       }
     });
-    this.borrowreqCollection = db.collection<Task>('borrows');
+    this.borrowreqCollection = this.db.collection<Task>('borrows');
+
   }
   callFor() {
     this.visibleBor$ = this.borrowreqCollection.valueChanges();

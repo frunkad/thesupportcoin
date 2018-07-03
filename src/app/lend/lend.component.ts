@@ -20,4 +20,3 @@ public encoded(text: string) {
 }
 
 }
-

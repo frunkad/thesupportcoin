@@ -9,12 +9,13 @@ import { HeaderComponent } from './header/header.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/login',
+    redirectTo: '/lend',
     pathMatch: 'full'
   },
   {
     path: 'login',
-    component: LoginComponent
+    redirectTo: '/lend'
+    // component: LoginComponent
   },
   {
     path: '',
@@ -22,11 +23,13 @@ const routes: Routes = [
       {
         path: 'lend',
         component: LendComponent,
+        // canActivate: [AuthGuard],
         pathMatch: 'full'
       },
       {
         path: 'borrow',
         component: BorrowComponent,
+        // canActivate: [AuthGuard],
         pathMatch: 'full'
       }
 

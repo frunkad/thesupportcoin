@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { BorrowComponent } from './borrow/borrow.component';
 import { AuthService } from './auth.service';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Observable } from 'rxjs';
+import { Observable, ObservableLike } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import { Task, LendTask } from './task';
+import { User, FirestoreService } from './firestore.service';
 
 
 
@@ -17,24 +18,34 @@ export class LendReqService {
   private lendreqCollection: AngularFirestoreCollection<Task>;
   private uid;
   private username;
+  private currentUser$: Observable<User>;
 
   visibleBor$: Observable<Task[]>;
 
-  constructor(private auth: AuthService, private db: AngularFirestore) {
-    auth.user.pipe(
-      take(1),
-      map(user => user)
-    ).subscribe(uid=> {
-      if(!!uid){
-      this.uid = uid.uid;
-      this.username = uid.displayName
+  constructor(private db: AngularFirestore,public authService: AuthService,public firestoreService: FirestoreService) {
+
+    authService.authState$.subscribe(authUser => {
+      if (authUser != null) {
+        this.currentUser$ = firestoreService.getUser(authUser.uid);
+
+        this.currentUser$.subscribe(user => {
+          if(user){
+            this.username = user.displayName;
+            this.uid = user.uid;
+            }
+            else{
+              this.username = '';
+              this.uid = null;
+            }
+        });
       }
-      else{
+      else {
+        this.username = '';
         this.uid = null;
-        this.username = null;
       }
     });
-    this.lendreqCollection = db.collection<Task>('lends');
+    
+    this.lendreqCollection = this.db.collection<Task>('lends');
   }
 
   callFor() {
