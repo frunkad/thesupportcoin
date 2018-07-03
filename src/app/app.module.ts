@@ -16,7 +16,7 @@ import { LendComponent } from './lend/lend.component';
 import { BorrowComponent } from './borrow/borrow.component';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { HeaderComponent } from './header/header.component';
-import { SuiModalService, SuiModule } from 'ng2-semantic-ui';
+import { SuiModalService, SuiModule, SuiSidebarModule } from 'ng2-semantic-ui';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UnauthGuard } from './unauth.guard';
 
@@ -36,7 +36,8 @@ import { UnauthGuard } from './unauth.guard';
     AngularFireAuthModule,
     AngularFirestoreModule,
     ReactiveFormsModule,
-    SuiModule
+    SuiModule,
+    SuiSidebarModule
   ],
   providers: [AuthService,AuthGuard,SuiModalService,UnauthGuard],
   bootstrap: [AppComponent]
