@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../auth.service';
-import {SuiModalService, TemplateModalConfig, ModalTemplate, SuiModal} from 'ng2-semantic-ui';
+import {SuiModalService, TemplateModalConfig, ModalTemplate, SuiModal, SuiSidebarModule} from 'ng2-semantic-ui';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Task, LendTask, BorrowTask } from '../task';
 import { LendReqService } from '../lend-req.service';
@@ -31,6 +31,10 @@ export class HeaderComponent implements OnInit {
   constructor(public auth: AuthService,public modalService: SuiModalService, public lendService: LendReqService, public borrowService: BorrowReqService) { }
 
   ngOnInit() {
+    console.log("initialized")
+  }
+  public log(msg) {
+    console.log(msg);
   }
 
   public openModal(dynamicContent:string = "Example"):void {

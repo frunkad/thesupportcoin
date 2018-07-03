@@ -1,14 +1,14 @@
 <div class="ui top yellow-head attached demo menu">
-    <a class="item" (click)="sidebar.toggle()">
+    <a class="item" (click)="log('sidebar called');sidebar.toggle()">
       <i class="sidebar icon"></i>
     </a>
     <div class="right item">
-        <button *ngIf="auth.uid" class="ui white basic button" (click)="console.log('fefef');openModal()" >New Request</button>
+        <button *ngIf="auth.uid" class="ui white basic button" (click)="openModal()" >New Request</button>
         <button *ngIf="!auth.uid" class="ui white basic button" routerLink="/login">Login</button>
     </div>
   </div>
   <sui-sidebar-container class="ui bottom attached segment">
-    <sui-sidebar class="vertical" transition="overlay" direction="left" #sidebar>
+    <sui-sidebar class="vertical" transition="slide along" direction="left" #sidebar>
       <a routerLink="/lend" class="item" (click)="sidebar.close()">Lend Requests</a>
       <a routerLink="/borrow" class="item" (click)="sidebar.close()">Borrow Requests</a>
       <a *ngIf="auth.uid" class="item" (click)="auth.signOut();sidebar.close()">Log Out</a>
@@ -17,6 +17,7 @@
   
       <div class="ui basic segment">
         <router-outlet></router-outlet>
+        <b *ngIf="sidebar.wasJustOpened">fjkeofeofihofeofeoifheofiheofhefe<br>ffefefe<br>fefeF</b>
       </div>
     </sui-sidebar-sibling>
   </sui-sidebar-container>
