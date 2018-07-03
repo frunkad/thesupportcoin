@@ -15,6 +15,24 @@
     </div>
     <div class="description">
       <p>Offered by {{lend.createdByName}}</p>
+  <div *ngFor="let lend of lends.visibleBor$ | async" class="ui item block">
+    <div class="image">
+      <img src="https://semantic-ui.com/images/avatar/large/steve.jpg" class="ui large image">
+    </div>
+    <div class="content">
+      <h2 class="header">{{lend.title}}</h2>
+      <div class="meta">
+        <span class="amount">Rs. {{lend.amount}}</span>
+      </div>
+      <div class="description">
+        <p>Requested by {{lend.createdByName}}</p>
+      </div>
+      <div class="extra">
+          <a href="https://wa.me/918094069970/?text={{encoded('I would like to request help from ' + lend.createdByName)}}" target="_blank" class="ui right floated primary button" >
+            Request Support
+          <i class="right chevron icon"></i>
+      </a>
+        <div *ngIf="lend.immediate" class="ui label">Urgent</div>
     </div>
     <div class="extra">
         <a href="https://wa.me/918094069970/?text={{encoded('I would like to request help from ' + lend.createdByName)}}" target="_blank" class="ui right floated primary button" >
@@ -23,7 +41,6 @@
     </a>
       <div *ngIf="lend.immediate" class="ui label">Urgent</div>
   </div>
-</div>
 </div>
 </div>
 </div>

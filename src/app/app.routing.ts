@@ -36,16 +36,6 @@ const routes: Routes = [
     ],
     component: HeaderComponent
   },
-  // {
-  //   path: 'lend',
-  //   component: LendComponent,
-  //   canActivate: [AuthGuard]
-  // },
-  // {
-  //   path: 'borrow',
-  //   component: BorrowComponent,
-  //   canActivate: [AuthGuard]
-  // },
   {
     path: '**',
     redirectTo: '/lend'

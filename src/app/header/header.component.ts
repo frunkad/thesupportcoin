@@ -8,6 +8,7 @@ import { BorrowReqService } from '../borrow-req.service';
 import { Observable } from 'rxjs';
 import { User, FirestoreService } from '../firestore.service';
 
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -49,7 +50,6 @@ export class HeaderComponent implements OnInit {
     });
 
   }
-
   ngOnInit() {
   }
 
@@ -81,6 +81,7 @@ export class HeaderComponent implements OnInit {
           console.log(this.newTask);
         })
         .onDeny(r => console.log(`Denied with result: '${r}'.`));
+
 }
 
 
