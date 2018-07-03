@@ -21,10 +21,7 @@ export class LendReqService {
   visibleBor$: Observable<Task[]>;
 
   constructor(private auth: AuthService, private db: AngularFirestore) {
-    auth.user.pipe(
-      take(1),
-      map(user => user)
-    ).subscribe(uid=> {
+    this.auth.user.subscribe(uid=> {
       if(!!uid){
       this.uid = uid.uid;
       this.username = uid.displayName
@@ -34,7 +31,7 @@ export class LendReqService {
         this.username = null;
       }
     });
-    this.lendreqCollection = db.collection<Task>('lends');
+    this.lendreqCollection = this.db.collection<Task>('lends');
   }
 
   callFor() {

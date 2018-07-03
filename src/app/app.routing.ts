@@ -22,12 +22,14 @@ const routes: Routes = [
       {
         path: 'lend',
         component: LendComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        // canActivate: [AuthGuard]
       },
       {
         path: 'borrow',
         component: BorrowComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        // canActivate: [AuthGuard]
       }
 
     ],

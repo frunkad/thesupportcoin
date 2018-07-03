@@ -20,10 +20,7 @@ export class BorrowReqService {
   visibleBor$: Observable<Task[]>;
 
   constructor(private auth: AuthService, private db: AngularFirestore) {
-    auth.user.pipe(
-      take(1),
-      map(user => user)
-    ).subscribe(uid=> {
+    auth.user.subscribe(uid=> {
       if(!!uid){
       this.uid = uid.uid;
       this.username = uid.displayName

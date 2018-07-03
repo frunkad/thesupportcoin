@@ -1,5 +1,5 @@
 <div class="ui top yellow-head attached demo menu">
-    <a class="item" (click)="log('sidebar called');sidebar.toggle()">
+    <a class="item" (click)="log('sidebar called');sidebar.toggle();log('sidebar off')">
       <i class="sidebar icon"></i>
     </a>
     <div class="right item">
@@ -17,7 +17,6 @@
   
       <div class="ui basic segment">
         <router-outlet></router-outlet>
-        <b *ngIf="sidebar.wasJustOpened">fjkeofeofihofeofeoifheofiheofhefe<br>ffefefe<br>fefeF</b>
       </div>
     </sui-sidebar-sibling>
   </sui-sidebar-container>

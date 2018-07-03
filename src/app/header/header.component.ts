@@ -28,7 +28,11 @@ export class HeaderComponent implements OnInit {
   public dynamicContent:string = "Example of dynamic content.";
 
 
-  constructor(public auth: AuthService,public modalService: SuiModalService, public lendService: LendReqService, public borrowService: BorrowReqService) { }
+  constructor(public auth: AuthService,public modalService: SuiModalService, public lendService: LendReqService, public borrowService: BorrowReqService) {
+    this.auth.authenticated$.subscribe((ds)=>{
+      console.log("Dwdw",ds,ds.valueOf());
+    })
+  }
 
   ngOnInit() {
     console.log("initialized")

@@ -32,8 +32,11 @@ export class AuthService {
     private router: Router
   ) {
 
-      //// Get auth data, then get firestore user document || null
-      this.authenticated$ = afAuth.authState.pipe(take(1),map(user => !!user));
+      // This only holds value once ??? It is only called on one 
+      this.authenticated$ = afAuth.authState.pipe(map(user => {
+        console.log("auth! ",user);
+        return !!user;
+      }));
       // this.uid = afAuth.authState.pipe(map(user=>
       //   {
       //     console.log("feefE");
