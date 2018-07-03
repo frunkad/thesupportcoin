@@ -13,7 +13,7 @@ export class LoginComponent {
   constructor(public auth: AuthService,private router:Router) { }
 
   doLogin() { 
-    this.auth.googleLogin().then((suc)=>{
+    this.auth.signInWithGoogle().then((suc)=>{
       this.router.navigateByUrl("lend");
     })
   }

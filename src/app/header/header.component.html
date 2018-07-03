@@ -3,15 +3,15 @@
     <i class="sidebar icon"></i>
   </a>
   <div class="right item">
-      <button *ngIf="auth.uid" class="ui white basic button" (click)="openModal()" >New Request</button>
-      <button *ngIf="!auth.uid" class="ui white basic button" routerLink="/login">Login</button>
+      <button *ngIf="currentUser" class="ui white basic button" (click)="openModal()" >New Request</button>
+      <button *ngIf="!currentUser" class="ui white basic button" routerLink="/login">Login</button>
   </div>
 </div>
 <sui-sidebar-container class="ui bottom attached segment">
   <sui-sidebar class="vertical" transition="overlay" direction="left" #sidebar>
     <a routerLink="/lend" class="item" (click)="sidebar.close()">Lend Requests</a>
     <a routerLink="/borrow" class="item" (click)="sidebar.close()">Borrow Requests</a>
-    <a *ngIf="auth.uid" class="item" (click)="auth.signOut();sidebar.close()">Log Out</a>
+    <a *ngIf="currentUser" class="item" (click)="auth.signOut();sidebar.close()">Log Out</a>
   </sui-sidebar>
   <sui-sidebar-sibling [isDimmedWhenVisible]="true" class="main-body">
 

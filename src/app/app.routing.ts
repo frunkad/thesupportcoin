@@ -9,7 +9,7 @@ import { HeaderComponent } from './header/header.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/login',
+    redirectTo: '/lend',
     pathMatch: 'full'
   },
   {
@@ -22,13 +22,13 @@ const routes: Routes = [
       {
         path: 'lend',
         component: LendComponent,
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
         pathMatch: 'full'
       },
       {
         path: 'borrow',
         component: BorrowComponent,
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
         pathMatch: 'full'
       }
 
@@ -47,7 +47,7 @@ const routes: Routes = [
   // },
   {
     path: '**',
-    redirectTo: '/login'
+    redirectTo: '/lend'
   }
 ];
 

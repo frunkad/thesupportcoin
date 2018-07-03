@@ -14,7 +14,7 @@ export class UnauthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
 
-      return true;
+      return this.auth.authenticated;
 
   }
 }
