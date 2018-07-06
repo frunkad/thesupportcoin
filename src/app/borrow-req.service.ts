@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
 import { take, map } from 'rxjs/operators';
-import { Task, BorrowTask } from './task';
+import { Task } from './task';
 import { FirestoreService, User } from './firestore.service';
 
 
@@ -50,11 +50,8 @@ export class BorrowReqService {
     this.visibleBor$ = this.borrowreqCollection.valueChanges();
   }
 
-  createRequest(reqTask: BorrowTask) {
-    if(this.uid) {
-      reqTask.addCreatedBy(this.uid,this.username);
-      this.borrowreqCollection.add(Object.assign({},reqTask));
-    }
-  }
-  
+  createRequest(reqTask: Task) {
+    // this.borrowreqCollection.add(Object.assign({},reqTask));
+    this.borrowreqCollection.add(reqTask);
+  }  
 }

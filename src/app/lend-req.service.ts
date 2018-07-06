@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable, ObservableLike } from 'rxjs';
 import { take, map } from 'rxjs/operators';
-import { Task, LendTask } from './task';
+import { Task } from './task';
 import { User, FirestoreService } from './firestore.service';
 
 
@@ -52,11 +52,10 @@ export class LendReqService {
     this.visibleBor$ = this.lendreqCollection.valueChanges();
   }
 
-  createRequest(reqTask: LendTask) {
-    if(this.uid) {
-      reqTask.addCreatedBy(this.uid,this.username);
-      this.lendreqCollection.add(Object.assign({},reqTask));
-    }
+  createRequest(reqTask: Task) {
+      // this.lendreqCollection.add(Object.assign({},reqTask));
+      this.lendreqCollection.add(reqTask);
+    
   }
   
 }

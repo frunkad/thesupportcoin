@@ -5,8 +5,9 @@
 <div class="ui divided items">
 
   <div *ngFor="let borrow of borrows.visibleBor$ | async" class="item">
-    <div class="image">
-      <img src="https://semantic-ui.com/images/avatar2/large/kristy.png">
+    <div class="ui small image">
+      <img *ngIf="!borrow.photo" src="https://semantic-ui.com/images/avatar2/large/kristy.png">
+      <img *ngIf="borrow.photo" src="{{borrow.photo}}">
     </div>
     <div class="content">
       <h2 class="header">{{borrow.title}}</h2>
@@ -14,14 +15,17 @@
         <span class="amount">Rs. {{borrow.amount}}</span>
       </div>
       <div class="description">
-        <p>Requested by {{borrow.createdByName}}</p>
+        <p *ngIf="borrow.description">{{borrow.description}}</p>
       </div>
       <div class="extra">
-        <a href="https://wa.me/918094069970/?text={{encoded('I would like to extend my support to ' + borrow.createdByName)}}" target="_blank" class="ui right floated primary button" >
+
+          <span class="by">{{borrow.name}}</span><br><br>
+        <a href="https://wa.me/918094069970/?text={{encoded('I would like to extend my support to ' + borrow.name)}}" target="_blank" class="ui right floated primary button" >
           Provide Support
           <i class="right chevron icon"></i>
         </a>
         <div *ngIf="borrow.immediate" class="ui label">Urgent</div>
+        <div *ngIf="borrow.location" class="ui label"><i class="globe icon"></i> {{borrow.location}}</div>
       </div>
     </div>
   </div>

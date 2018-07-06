@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 
 
-import {  AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
@@ -19,6 +19,7 @@ import { HeaderComponent } from './header/header.component';
 import { SuiModalService, SuiModule, SuiSidebarModule } from 'ng2-semantic-ui';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UnauthGuard } from './unauth.guard';
+import { AngularFireStorage, AngularFireStorageModule } from 'angularfire2/storage';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { UnauthGuard } from './unauth.guard';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    AngularFireStorageModule,
     ReactiveFormsModule,
     SuiModule,
     SuiSidebarModule

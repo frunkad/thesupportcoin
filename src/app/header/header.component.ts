@@ -2,11 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../auth.service';
 import {SuiModalService, TemplateModalConfig, ModalTemplate, SuiModal, SuiSidebarModule} from 'ng2-semantic-ui';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Task, LendTask, BorrowTask } from '../task';
+import { Task } from '../task';
 import { LendReqService } from '../lend-req.service';
 import { BorrowReqService } from '../borrow-req.service';
 import { Observable } from 'rxjs';
 import { User, FirestoreService } from '../firestore.service';
+import { AngularFireStorage } from 'angularfire2/storage';
+import { finalize } from 'rxjs/operators';
 
 
 @Component({
@@ -20,10 +22,14 @@ export class HeaderComponent implements OnInit {
     title: new FormControl(),
     type: new FormControl(),
     amount: new FormControl(),
-    fullText: new FormControl(),
-    immediate: new FormControl()
+    description: new FormControl(),
+    immediate: new FormControl(),
+    name: new FormControl(),
+    organisation: new FormControl(),
+    idproof: new FormControl(),
+    location: new FormControl()
   });
-  newTask;
+  newTask: Task;
 
   @ViewChild("mainModal")
   public modalTemplate:ModalTemplate<{ data:string }, string, string>;
@@ -31,9 +37,12 @@ export class HeaderComponent implements OnInit {
   public dynamicContent:string = "Example of dynamic content.";
   public currentUser$: Observable<User>;
   public currentUser: User;
+  public task;
+  private fileURL: any = '';
+  private ref;
 
 
-  constructor(public auth: AuthService,public modalService: SuiModalService, public lendService: LendReqService, public borrowService: BorrowReqService, public firestoreService: FirestoreService) {
+  constructor(public auth: AuthService,public modalService: SuiModalService, public lendService: LendReqService, public borrowService: BorrowReqService, public firestoreService: FirestoreService, public storage: AngularFireStorage) {
     auth.authState$.subscribe(authUser => {
       if (authUser != null) {
         this.currentUser$ = firestoreService.getUser(authUser.uid);
@@ -57,8 +66,39 @@ export class HeaderComponent implements OnInit {
     console.log(msg);
   }
 
+  upload(event) {
+    // create a random id
+    const randomId = Math.random().toString(36).substring(2);
+    // create a reference to the storage bucket location
+    this.fileURL = '';
+    this.ref = this.storage.ref('userPhotos').child(randomId+'.jpg');
+    this.task = this.storage.upload('userPhotos/'+randomId+'.jpg',event.target.files[0])
+    // observe percentage changes
+    // get notified when the download URL is available
+    this.task.snapshotChanges().pipe(
+        finalize(() => {
+          this.ref.getDownloadURL().subscribe((url) => {
+            this.fileURL = url;
+            console.log(this.fileURL);
+          })
+          
+        })
+     )
+    .subscribe()
+    
+    // 
+    // const task = ref.put(event.target.files[0]);
+    
+
+    // task.snapshot.ref.getDownloadURL().subscribe((url) =>{
+    //   console.log(url);
+    //   this.fileURL = url;
+    // });
+  }
+
   public openModal(dynamicContent:string = "Example"):void {
     const config = new TemplateModalConfig<{ data:string }, string, string>(this.modalTemplate);
+    console.log('file',this.fileURL);
 
     config.closeResult = "dismissed";
     config.context = { data: dynamicContent };
@@ -66,23 +106,59 @@ export class HeaderComponent implements OnInit {
     this.modalService
         .open(config)
         .onApprove(r => {
+          this.newTask = <Task>{};
+          this.newTask.amount = this.newTaskForm.value.amount;
+          this.newTask.completed = false;
+          this.newTask.title = this.newTaskForm.value.title;
+          this.newTask.name = this.newTaskForm.value.name;
+          this.newTask.description = this.newTaskForm.value.description;
+          this.newTask.location = this.newTaskForm.value.location;
           if(this.newTaskForm.value.type == "Lending Offer")
           {
-            this.newTask = new LendTask(this.newTaskForm.value.title,this.newTaskForm.value.amount);
-            this.newTask.addText(this.newTaskForm.value.fullText);
-            if(this.newTaskForm.value.immediate)
-              this.newTask.requiredImmediately(true);
-            this.lendService.createRequest(this.newTask);
+            this.newTask.organisation = this.newTaskForm.value.organisation;
+            if(this.fileURL === ''){
+              //await file upload
+              this.task.snapshotChanges().pipe(
+                finalize(() => {
+                  this.ref.getDownloadURL().subscribe((url) => {
+                    this.fileURL = url;
+                    this.newTask.photo = this.fileURL;
+                    this.lendService.createRequest(this.newTask); 
+                  })
+                  
+                })
+             )
+            .subscribe()
+            }
+            else{
+              this.newTask.photo = this.fileURL;
+              this.lendService.createRequest(this.newTask);
+            }
           }
           else
           {
-            this.newTask = new BorrowTask(this.newTaskForm.value.title,this.newTaskForm.value.amount);
-            this.newTask.addText(this.newTaskForm.value.fullText);
+            this.newTask.idproof = this.newTaskForm.value.idproof;
             if(this.newTaskForm.value.immediate)
-              this.newTask.requiredImmediately(true);
-            this.borrowService.createRequest(this.newTask);
+              this.newTask.immediate = true;
+            if(this.fileURL === ''){
+              //await file upload
+              this.task.snapshotChanges().pipe(
+                finalize(() => {
+                  this.ref.getDownloadURL().subscribe((url) => {
+                    this.fileURL = url;
+                    this.newTask.photo = this.fileURL;
+                    this.borrowService.createRequest(this.newTask); 
+                  })
+                  
+                })
+             )
+            .subscribe()
+            }
+            else{
+              this.newTask.photo = this.fileURL;
+              this.borrowService.createRequest(this.newTask);
+            }
           }
-          console.log(this.newTask);
         })
         .onDeny(r => console.log(`Denied with result: '${r}'.`));
 

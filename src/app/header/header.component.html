@@ -3,9 +3,9 @@
     <i class="sidebar icon"></i>
   </a>
   <div class="right item">
-      <button *ngIf="currentUser" class="ui white basic button" (click)="openModal()" >New Request</button>
+      <button class="ui white basic button" (click)="openModal()" >New Request</button>
       <!-- <button *ngIf="!currentUser" class="ui white basic button" routerLink="/login">Login</button> -->
-      <button *ngIf="!currentUser" class="ui white basic button" (click)="auth.signInWithGoogle()">Login</button>
+      <!-- <button *ngIf="!currentUser" class="ui white basic button" (click)="auth.signInWithGoogle()">Login</button> -->
   </div>
 </div>
 <sui-sidebar-container class="ui bottom attached segment">
@@ -36,18 +36,37 @@
           </sui-select>
 
     </div>
-      <div class="field">
-        <label>Title</label>
-        <input type="text" name="name" formControlName="title" placeholder="Full Name">
-      </div>
+    <div class="field">
+      <label>Full Name</label>
+      <input type="text" name="name" formControlName="name" placeholder="Your Full Name">
+    </div>
+    <div class="field">
+      <label>Title</label>
+      <input type="text" name="title" formControlName="title" placeholder="Title">
+    </div>
       <div class="field">
         <label>Amount</label>
         <input type="number" name="amount" formControlName="amount" placeholder="Amount">
       </div>
-      
+      <div class="field">
+        <label>Location</label>
+        <input type="text" name="organisation" formControlName="location">
+      </div>
+      <div *ngIf="newTaskForm.value.type == 'Lending Offer'" class="field">
+        <label>Organization</label>
+        <input type="text" name="organisation" formControlName="organisation">
+      </div>
+      <div *ngIf="newTaskForm.value.type == 'Borrow Request'" class="field">
+        <label>Aadhar Number</label>
+        <input type="text" name="idproof" formControlName="idproof" placeholder="1234-1234-1234">
+      </div>
       <div class="field">
           <label>Description</label>
-          <textarea rows="2" formControlName="fullText"></textarea>
+          <textarea rows="2" formControlName="description"></textarea>
+        </div>
+        <div class="field">
+          <label>Your Photo</label>
+          <input type="file" name="file" (change)="upload($event)" accept=".png,.jpg" >
         </div>
       <div *ngIf="newTaskForm.value.type == 'Borrow Request'" class="field">
           <sui-checkbox formControlName="immediate">
