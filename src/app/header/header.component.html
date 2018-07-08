@@ -1,24 +1,22 @@
-<div class="ui top yellow-head attached demo menu">
-  <a class="item" (click)="sidebar.toggle()">
-    <i class="sidebar icon"></i>
-  </a>
-  <div class="right item">
-      <button class="ui white basic button" (click)="openModal()" >New Request</button>
-      <!-- <button *ngIf="!currentUser" class="ui white basic button" routerLink="/login">Login</button> -->
-      <!-- <button *ngIf="!currentUser" class="ui white basic button" (click)="auth.signInWithGoogle()">Login</button> -->
-  </div>
-</div>
-<sui-sidebar-container class="ui bottom attached segment">
-  <sui-sidebar class="vertical" transition="overlay" direction="left" #sidebar>
+<sui-sidebar-container class="ui bottom attached" fullscreen>
+    <div class="ui top yellow-head attached demo menu">
+        <a class="item" (click)="sidebar.toggle()">
+          <i class="sidebar icon"></i>
+        </a>
+        <div class="right item">
+            <button class="ui white basic button" (click)="openModal()" >New Request</button>
+            <!-- <button *ngIf="!currentUser" class="ui white basic button" routerLink="/login">Login</button> -->
+            <!-- <button *ngIf="!currentUser" class="ui white basic button" (click)="auth.signInWithGoogle()">Login</button> -->
+        </div>
+      </div>
+  <sui-sidebar class="vertical" transition="overlay" direction="left"  #sidebar>
     <a routerLink="/lend" class="item" (click)="sidebar.close()">Lend Requests</a>
     <a routerLink="/borrow" class="item" (click)="sidebar.close()">Borrow Requests</a>
     <a *ngIf="currentUser" class="item" (click)="auth.signOut();sidebar.close()">Log Out</a>
+    <a *ngIf="!currentUser" class="item" (click)="auth.signInWithGoogle();sidebar.close()">Sign In</a>
   </sui-sidebar>
   <sui-sidebar-sibling [isDimmedWhenVisible]="true" class="main-body">
-
-    <div class="ui basic segment">
       <router-outlet></router-outlet>
-    </div>
   </sui-sidebar-sibling>
 </sui-sidebar-container>
 <ng-template let-context let-modal="modal" #mainModal>

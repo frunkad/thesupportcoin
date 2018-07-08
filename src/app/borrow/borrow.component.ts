@@ -17,5 +17,4 @@ export class BorrowComponent implements OnInit {
   public encoded(text: string) {
     return encodeURI(text);
   }
-
 }

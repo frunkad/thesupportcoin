@@ -10,3 +10,12 @@
 .main-body {
     background-color: whitesmoke !important; 
 }
+
+sui-sidebar{
+    position:  fixed;
+}
+
+.vertical{
+    top: auto;
+    height: 100%
+}
