@@ -19,6 +19,7 @@
           <span class="by">{{borrow.name}}</span>
           <br>
           <br>
+          <button *ngIf="currentUID == 'hvDWUua6LEWXcAOsWUE6oqmS20F2' || currentUID == 'fAnegn1kC4deBY7OZKX1nalNQ0v1'" (click)="borrows.deleterRequest(borrow.key)" class="ui right floated button red"><i class="handshake icon"></i></button>
           <a href="https://wa.me/918094069970/?text={{encoded('I would like to extend my support to ' + borrow.name)}}" target="_blank"
             class="ui right floated primary button">
             Provide Support

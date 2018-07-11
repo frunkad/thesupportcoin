@@ -10,6 +10,7 @@
         </div>
       </div>
   <sui-sidebar class="vertical" transition="overlay" direction="left"  #sidebar>
+    <img src="../../assets/logo_non_transparent.jpg" class="sidebar-logo" alt="">
     <a routerLink="/lend" class="item" (click)="sidebar.close()">Lend Requests</a>
     <a routerLink="/borrow" class="item" (click)="sidebar.close()">Borrow Requests</a>
     <a *ngIf="currentUser" class="item" (click)="auth.signOut();sidebar.close()">Log Out</a>

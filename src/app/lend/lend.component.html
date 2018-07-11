@@ -18,6 +18,7 @@
         <div class="extra">
             <span class="by">By {{lend.name}}</span>
             <span *ngIf="orgainsation" class="orgainsation">{{lend.orgainsation}}</span><br><br>
+            <button *ngIf="currentUID == 'hvDWUua6LEWXcAOsWUE6oqmS20F2' || currentUID == 'fAnegn1kC4deBY7OZKX1nalNQ0v1'" (click)="lends.deleterRequest(lend.key)" class="ui right floated button red"><i class="handshake icon"></i></button>
           <a href="https://wa.me/918094069970/?text={{encoded('I would like to request help from ' + lend.name)}}" target="_blank"
             class="ui right floated primary button">
             Request Support

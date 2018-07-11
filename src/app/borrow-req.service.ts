@@ -7,6 +7,17 @@ import { Task } from './task';
 import { FirestoreService, User } from './firestore.service';
 
 
+// dec2hex :: Integer -> String
+function dec2hex (dec) {
+  return ('0' + dec.toString(16)).substr(-2)
+}
+
+// generateId :: Integer -> String
+function generateId (len) {
+  var arr = new Uint8Array((len || 40) / 2)
+  window.crypto.getRandomValues(arr)
+  return Array.from(arr, dec2hex).join('')
+}
 
 
 @Injectable({
@@ -49,9 +60,15 @@ export class BorrowReqService {
   callFor() {
     this.visibleBor$ = this.borrowreqCollection.valueChanges();
   }
+  deleterRequest(reqId: string){
+    return this.db.doc<Task>(`borrows/${reqId}`).delete();
+  }
 
   createRequest(reqTask: Task) {
-    // this.borrowreqCollection.add(Object.assign({},reqTask));
-    this.borrowreqCollection.add(reqTask);
+      // this.lendreqCollection.add(Object.assign({},reqTask));
+      let newId = generateId(16);
+      reqTask.key = newId;
+      this.db.doc<Task>(`borrows/${newId}`).set(reqTask);
+    
   }  
 }

@@ -43,6 +43,7 @@ export class HeaderComponent implements OnInit {
 
 
   constructor(public auth: AuthService,public modalService: SuiModalService, public lendService: LendReqService, public borrowService: BorrowReqService, public firestoreService: FirestoreService, public storage: AngularFireStorage) {
+    this.newTask = <Task>{};
     auth.authState$.subscribe(authUser => {
       if (authUser != null) {
         this.currentUser$ = firestoreService.getUser(authUser.uid);
@@ -70,7 +71,8 @@ export class HeaderComponent implements OnInit {
     // create a random id
     const randomId = Math.random().toString(36).substring(2);
     // create a reference to the storage bucket location
-    this.fileURL = '';
+    this.fileURL = '-image';
+    this.newTask.photoRef = `userPhotos/${randomId}.jpg`;
     this.ref = this.storage.ref('userPhotos').child(randomId+'.jpg');
     this.task = this.storage.upload('userPhotos/'+randomId+'.jpg',event.target.files[0])
     // observe percentage changes
@@ -106,7 +108,6 @@ export class HeaderComponent implements OnInit {
     this.modalService
         .open(config)
         .onApprove(r => {
-          this.newTask = <Task>{};
           this.newTask.amount = this.newTaskForm.value.amount;
           this.newTask.completed = false;
           this.newTask.title = this.newTaskForm.value.title;
@@ -117,6 +118,11 @@ export class HeaderComponent implements OnInit {
           {
             this.newTask.organisation = this.newTaskForm.value.organisation;
             if(this.fileURL === ''){
+              alert('No image uploaded');
+              return;
+            }
+
+            if(this.fileURL === '-image'){
               //await file upload
               this.task.snapshotChanges().pipe(
                 finalize(() => {
